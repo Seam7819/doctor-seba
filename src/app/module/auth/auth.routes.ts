@@ -1,9 +1,9 @@
 import { Router } from "express";
 import { authController } from "./auth.controller";
 
-const router = Router()
+const router = Router();
 
-router.post('/', authController.registerPatient)
-
+router.post("/register", authController.registerPatient);
+router.post("/login", authController.logInUser);
 
 export const authRoutes = router;

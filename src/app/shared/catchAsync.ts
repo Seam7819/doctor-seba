@@ -1,14 +1,18 @@
 import { NextFunction, Request, RequestHandler, Response } from "express";
 
-export const catchAsync = (fn: RequestHandler ) =>{
-    return async (req:Request, res:Response, next: NextFunction) => {
-        try{
+export const catchAsync = (fn: RequestHandler) => {
+    return async (req: Request, res: Response, next: NextFunction) => {
+        try {
             await fn(req, res, next);
-        } catch (error) {
-            res.status(500).json({
-                message: "Internal Server Error",
-                error: error
+        } catch (error: any) {
+            const statusCode = Number(error?.statusCode || error?.status || 500);
+            const message = error?.message || "Internal Server Error";
+
+            res.status(statusCode).json({
+                success: false,
+                message,
+                ...(error?.code ? { code: error.code } : {}),
             });
         }
     }
-}
+};
