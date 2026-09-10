@@ -23,6 +23,24 @@ const registerPatient = async (payload: IRegisterPayload) => {
     return data;
 }
 
+interface ILogin {
+    email: string,
+    password: string
+}
+
+const logInPatient = async(payload :ILogin) =>{
+    const {email,password} = payload;
+
+    const data = await auth.api.signInEmail({
+        body : {
+            email,
+            password
+        }
+    })
+    return data;
+}
+
 export const authService = {
-    registerPatient
+    registerPatient,
+    logInPatient
 }
