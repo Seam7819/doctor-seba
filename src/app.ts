@@ -1,5 +1,7 @@
 import express, { NextFunction, Request, Response } from "express";
 import { indexRoutes } from "./app/routes";
+import { globalErrorHandler } from "./app/middleware/globalErrorHandler";
+import { notFound } from "./app/middleware/notFound";
 
 const app = express();
 
@@ -23,5 +25,8 @@ app.use((error: any, req: Request, res: Response, next: NextFunction) => {
         message: "Internal Server Error"
     });
 });
+
+app.use(globalErrorHandler);
+app.use(notFound)
 
 export default app;
